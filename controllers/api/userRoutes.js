@@ -1,7 +1,19 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Comment, Post } = require('../../models');
 
-router.post('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
+  try {
+    const userData = await User.findAll({
+      include: [{ model: Post, model: Comment }],
+    });
+    res.status(200).json(userData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+  
+});
+
+router.post('/', withAuth, async (req, res) => {
   try {
     const userData = await User.create(req.body);
 
@@ -16,7 +28,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', withAuth async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
 

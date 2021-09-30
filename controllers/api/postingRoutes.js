@@ -1,22 +1,34 @@
 const router = require('express').Router();
-const { Project } = require('../../models');
+const { Post, Comment } = require('../../models');
 
-router.post('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
   try {
-    const newProject = await Project.create({
+      const postData = await Post.findAll({
+        include: [{ model: Comment }]
+      });
+  
+      res.status(200).json(postData);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+
+router.post('/', withAuth, async (req, res) => {
+  try {
+    const newPost = await Post.create({
       ...req.body,
       user_id: req.session.user_id,
     });
 
-    res.status(200).json(newProject);
+    res.status(200).json(newPost);
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
-    const projectData = await Project.destroy({
+    const deletePost = await Post.destroy({
       where: {
         id: req.params.id,
         user_id: req.session.user_id,
@@ -28,7 +40,7 @@ router.delete('/:id', async (req, res) => {
       return;
     }
 
-    res.status(200).json(projectData);
+    res.status(200).json(deletePost);
   } catch (err) {
     res.status(500).json(err);
   }
