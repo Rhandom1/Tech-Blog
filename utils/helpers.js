@@ -1,1 +1,8 @@
-//What would we need here? Emoji's? What else can we do?
+const Handlebars = require('handlebars');
+
+
+module.exports = {
+    format_time: (date) => {
+        return date.toLocaleTimeString();
+    }
+}
