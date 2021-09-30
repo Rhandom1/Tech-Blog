@@ -28,7 +28,7 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
-router.post('/login', withAuth async (req, res) => {
+router.post('/login', withAuth, async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
 
