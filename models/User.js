@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
+const withAuth = require('../utils/auth');
 
 class User extends Model {
   checkPassword(loginPw) {

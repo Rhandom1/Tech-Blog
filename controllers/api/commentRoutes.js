@@ -15,8 +15,7 @@ router.get('/', withAuth, async (req, res) => {
     });
 
 
-router.post('/', withAuth, async (req, res) => {
-  try {
+router.post('/:id', withAuth, async (req, res) => {
     try {
       const newComment = await Comment.update(req.body, {
         where: {

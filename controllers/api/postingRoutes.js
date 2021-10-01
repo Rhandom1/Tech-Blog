@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Post, Comment } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
   try {
@@ -16,6 +17,7 @@ router.get('/', withAuth, async (req, res) => {
 router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
+      // spread operator
       ...req.body,
       user_id: req.session.user_id,
     });
