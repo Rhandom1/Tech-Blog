@@ -7,21 +7,21 @@ const withAuth = require("../../utils/auth");
 router.get("/", (req, res) => {
   console.log("======================");
   Post.findAll({
-    attributes: ["id", "title", "created_at", "post_content"],
+    attributes: ["id", "title", "post_content"],
     order: [["created_at", "DESC"]],
     include: [
       // Comment model here -- attached username to comment
       {
         model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        attributes: ["id", "comment_text", "post_id", "user_id"],
         include: {
           model: User,
-          attributes: ["username", "id"],
+          attributes: ["name", "id"],
         },
       },
       {
         model: User,
-        attributes: ["username", "id"],
+        attributes: ["name", "id"],
       },
     ],
   })
@@ -37,19 +37,19 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
-    attributes: ["id", "title", "created_at", "post_content"],
+    attributes: ["id", "title", "post_content"],
     include: [
       // include the Comment model here:
       {
         model: User,
-        attributes: ["username", "id"],
+        attributes: ["name", "id"],
       },
       {
         model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        attributes: ["id", "comment_text", "post_id", "user_id"],
         include: {
           model: User,
-          attributes: ["username"],
+          attributes: ["name"],
         },
       },
     ],
