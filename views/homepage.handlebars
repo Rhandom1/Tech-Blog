@@ -1,2 +1,13 @@
+{{#each posts as |post|}}
 
-<h2 class="title-test">This is appearing!</h2>
+{{> post-info post }}
+</div>
+
+{{else}}
+<h6 class="text-center">There are currently no post(s)</h6>
+<h6 class="text-center">
+    <a href="../dashboard/create/">
+        Create a new post here!
+    </a>
+</h6>
+{{/each}}
