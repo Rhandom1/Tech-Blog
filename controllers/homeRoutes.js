@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
   console.log(req.session);
 
   Post.findAll({
-    attributes: ["id", "title", "post_content"],
+    attributes: ["id", "title", "post_text"],
     include: [
       {
         model: Comment,
@@ -58,7 +58,7 @@ router.get("/post/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
-    attributes: ["id", "title", "post_content"],
+    attributes: ["id", "title", "post_text"],
     include: [
       {
         model: Comment,
