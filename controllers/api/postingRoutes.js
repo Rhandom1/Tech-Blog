@@ -9,8 +9,8 @@ router.get("/", (req, res) => {
   Post.findAll({
     attributes: ["id", "title", "post_text"],
     order: [["created_at", "DESC"]],
+    //Include Comment and User
     include: [
-      // Comment model here -- attached username to comment
       {
         model: Comment,
         attributes: ["id", "comment_text", "post_id", "user_id"],
@@ -38,8 +38,8 @@ router.get("/:id", (req, res) => {
       id: req.params.id,
     },
     attributes: ["id", "title", "post_text"],
+    //Include User and Comment
     include: [
-      // include the Comment model here:
       {
         model: User,
         attributes: ["name", "id"],
@@ -67,7 +67,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", withAuth, (req, res) => {
+router.post("/", (req, res) => {
   Post.create({
     title: req.body.title,
     post_text: req.body.post_text,
@@ -80,7 +80,7 @@ router.post("/", withAuth, (req, res) => {
     });
 });
 
-router.put("/:id", withAuth, (req, res) => {
+router.put("/:id", (req, res) => {
   Post.update(
     {
       title: req.body.title,
@@ -105,8 +105,7 @@ router.put("/:id", withAuth, (req, res) => {
     });
 });
 
-router.delete("/:id", withAuth, (req, res) => {
-  //all comments delete from the post
+router.delete("/:id", (req, res) => {
   Comment.destroy({
     where: {
       post_id: req.params.id,
