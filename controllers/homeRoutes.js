@@ -3,33 +3,6 @@ const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 const withAuth = require('../utils/auth');
 
-router.get('/test', async (req, res) => {
- 
-
-  console.log('user id is visited')
-  try {
-      const getData = await Post.findAll({
-      include: [{model: User}],
-        where: {
-          user_id: 1
-        }
-      });
-
-      const postData = await getData.map((post) =>
-        post.get({ plain: true})
-      );
-
-     // console.log("This is the data from the database" ,postData)
-      res.render('homepage', { postData
-        //loggedIn: req.session.logged_in,
-      });
-        } 
-        catch (err) {
-          console.log(err);
-          res.status(500).json(err);
-        }
-      });
-
 //render homepage if not logged in
 // router.get('/', (req, res) => {
 //   if(req.session.logged_in) {
@@ -38,6 +11,35 @@ router.get('/test', async (req, res) => {
 //   }
 //   res.render('/login')
 // });
+
+router.get('/', (req, res) => {
+  // console.log(req.session);
+
+  Post.findAll({
+    attributes: ["id", "title", "post_text", "date_created"],
+    include: [
+      {
+        model: Comment,
+        attributes: ["id", "comment_text", "post_id", "user_id"],
+        include: {
+          model: User,
+          attributes: ["username"],
+        },
+      },
+      {
+        model: User,
+        attributes: ["username"],
+      },
+    ],
+  }) .then((dbPostData) => {
+    const posts = dbPostData.map((post) => post.get({ plain: true }));
+    res.render("dashboard");
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+});
 
 //render homepage
       //from homepage Login/signup
