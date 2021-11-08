@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
   });
 });
 
-
+//get a single post
 router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
