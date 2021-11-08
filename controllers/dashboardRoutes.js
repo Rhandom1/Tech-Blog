@@ -34,12 +34,12 @@ router.get('/', (req, res) => {
 });
 
 
-router.get("/edit/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
       id: req.params.id,
     },
-    attributes: ["id", "title", "post_content"],
+    attributes: ["id", "title", "post_text"],
     include: [
       {
         model: Comment,
@@ -80,7 +80,7 @@ router.get("/create/", (req, res) => {
     where: {
       user_id: req.session.user_id,
     },
-    attributes: ["id", "title", "post_content"],
+    attributes: ["id", "title", "post_text"],
     include: [
       {
         model: Comment,

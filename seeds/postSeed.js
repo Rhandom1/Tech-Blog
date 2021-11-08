@@ -6,6 +6,18 @@ const postData = [
         post_text: "This is a test post",
         user_id: 1
 
+    },
+    {
+        title: "Post #2",
+        post_text: "This is a 2nd test post",
+        user_id: 1
+
+    },
+    {
+        title: "Post #3",
+        post_text: "This is a third test post",
+        user_id: 1
+
     }
 ]
 
