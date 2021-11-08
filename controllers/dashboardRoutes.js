@@ -64,7 +64,7 @@ router.get("/:id", (req, res) => {
       // serialize the data
       const post = dbPostData.get({ plain: true });
 
-      res.render("allposts", {
+      res.render("viewpost", {
         post,
         // logged_in: true,
       });
@@ -75,35 +75,35 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/create/", (req, res) => {
-  Post.findAll({
-    where: {
-      user_id: req.session.user_id,
-    },
-    attributes: ["id", "title", "post_text"],
-    include: [
-      {
-        model: Comment,
-        attributes: ["id", "post_id", "user_id"],
-        include: {
-          model: User,
-          attributes: ["username"],
-        },
-      },
-      {
-        model: User,
-        attributes: ["username", "id"],
-      },
-    ],
-  })
-    .then((dbPostData) => {
-      const posts = dbPostData.map((post) => post.get({ plain: true }));
-      // res.render("create-post", { posts, logged_in: true });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
+// router.get("/create/", (req, res) => {
+//   Post.findAll({
+//     where: {
+//       user_id: req.session.user_id,
+//     },
+//     attributes: ["id", "title", "post_text"],
+//     include: [
+//       {
+//         model: Comment,
+//         attributes: ["id", "post_id", "user_id"],
+//         include: {
+//           model: User,
+//           attributes: ["username"],
+//         },
+//       },
+//       {
+//         model: User,
+//         attributes: ["username", "id"],
+//       },
+//     ],
+//   })
+//     .then((dbPostData) => {
+//       const posts = dbPostData.map((post) => post.get({ plain: true }));
+//       // res.render("create-post", { posts, logged_in: true });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 
 module.exports = router;
