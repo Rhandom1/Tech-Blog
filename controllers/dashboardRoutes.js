@@ -64,7 +64,7 @@ router.get("/:id", (req, res) => {
       // serialize the data
       const post = dbPostData.get({ plain: true });
 
-      res.render("edit-post", {
+      res.render("allposts", {
         post,
         // logged_in: true,
       });
